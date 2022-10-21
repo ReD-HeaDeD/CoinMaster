@@ -12,10 +12,6 @@ class CoinParser(object):
     def parse(self):
         self.driver.get("https://coinmarketcap.com/historical/")
 
-        #year = self.driver.find_elements(By.CLASS_NAME, 'lgiEcX')
-        #month = self.driver.find_elements(By.CLASS_NAME, 'eSQiCH')
-        #number = self.driver.find_elements(By.CLASS_NAME, 'historical-link')
-
         """year_elements = [year_element.text for year_element in year[:]]
         #print(f'[year]: {year_elements}')
         number_elements = [number_element.text for number_element in number[:]]
@@ -41,6 +37,13 @@ class CoinParser(object):
             for href_links_element in href_links[1:]:
                 self.driver.get(href_links_element)
                 time.sleep(1)
+                pixal = 0
+
+                while pixal <= 9000:
+                    self.driver.execute_script(f'window.scrollTo(0, {pixal});')
+                    pixal += 800
+                    time.sleep(1)
+
                 data = self.driver.find_element(By.XPATH, '//h1[contains(text(),"Historical Snapshot")]')
                 coin = self.driver.find_elements(By.CLASS_NAME, 'cmc-table__column-name--name')
                 price = self.driver.find_elements(By.XPATH, '//div[contains(text(),"$")]')
@@ -50,24 +53,9 @@ class CoinParser(object):
                 price_index = 1
 
                 while len(coin_elements[:]) > coin_index:
-                        #print(f'data: {data.text},'f'coin: {coin_elements[coin_index]}, 'f'price: {price_elements[price_index]}')
-                        file.write(f'{data.text}:{coin_elements[coin_index]}:{price_elements[price_index]}' + '\n')
-                        coin_index += 1
-                        price_index += 2
-
-        """for number_elem_pandas in number[:]:
-            crypto_coin = ({'number': [number_elem_pandas.text]})
-            album_df = pd.DataFrame(crypto_coin)
-            print(album_df)"""
-
-        """for year_element, month_element, number_element in zip(year[:], month[:], number[:]):
-            print(f'[year]: {year_element.text} [month]: {month_element.text} [month]: {number_element.text}')
-            crypto_coin = ({'year': [year_element.text],
-                           'month': [month_element.text],
-                           'number': [number_element.text]})
-
-            album_df = pd.DataFrame(crypto_coin)
-            #print(album_df)"""
+                    file.write(f'{data.text}:{coin_elements[coin_index]}:{price_elements[price_index]}' + '\n')
+                    coin_index += 1
+                    price_index += 2
 
 
 def main():
