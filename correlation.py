@@ -8,7 +8,7 @@ import seaborn as sb
 
 con = lite.connect('coin.db')
 
-sql_cmd = "SELECT name, dollar FROM coins WHERE data LIKE '%2022%'"
+sql_cmd = "SELECT dollar FROM coins WHERE data LIKE '%2022%'"
 
 df = pd.read_sql(sql_cmd, con)
 df = df.replace(to_replace='[$]', value='', regex=True)
@@ -16,6 +16,7 @@ df = df.replace(to_replace='[,]', value='', regex=True)
 df = df.astype({"dollar": "float64"})
 df.head()
 print(df)
-x_ = df.corr()
-print(x_)
+y_simple = np.array(df)
+my_rho = np.corrcoef(y_simple)
+print(my_rho)
 
