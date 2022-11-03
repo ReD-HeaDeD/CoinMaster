@@ -12,25 +12,6 @@ class CoinParser(object):
     def parse(self):
         self.driver.get("https://coinmarketcap.com/historical/")
 
-        """year_elements = [year_element.text for year_element in year[:]]
-        #print(f'[year]: {year_elements}')
-        number_elements = [number_element.text for number_element in number[:]]
-        #print(f'[number]: {number_elements}')
-        index_year = 0
-        index_number = 0
-        extra_line = ''
-        for month_element in month[:]:
-            print(f'[year]: {year_elements[index_year]} - '
-                  f'[month]: {month_element.text} - '
-                  f'[number]: {number_elements[index_number] + extra_line}')
-            index_number += 1
-            extra_line = ''
-            if month_element.text == 'December':
-                index_year += 1
-            while int(number_elements[index_number]) < 24:
-                extra_line = extra_line + ', ' + number_elements[index_number]
-                index_number += 1"""
-
         number_link = self.driver.find_elements(By.CLASS_NAME, 'historical-link')
         href_links = [number_link.get_attribute('href') for number_link in number_link[:]]
         with open("coin_list.txt", "w", encoding='utf-8') as file:
